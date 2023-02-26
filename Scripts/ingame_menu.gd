@@ -7,7 +7,7 @@ func _ready():
 
 func _on_resume_pressed():
 	self.hide()
-	global.table.get_tree().paused = false
+	Global.Table.get_tree().paused = false
 
 func _on_settings_pressed():
 	settings_ingame.show()

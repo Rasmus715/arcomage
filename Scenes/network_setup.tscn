@@ -87,9 +87,6 @@ margin_bottom = 53.0
 text = "IP_ADDRESS_NOT_FOUND"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="pressed" from="container/create_server" to="." method="OnCreateServerPressed"]
 [connection signal="pressed" from="container/join_server" to="." method="OnJoinServerPressed"]

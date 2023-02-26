@@ -1,8 +1,9 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Fonts/RobotoCondensed-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/enemy_tower.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/player_tower.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/IngameMenu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/player_wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/enemy_wall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Sprites/tower_top_player.png" type="Texture" id=8]
@@ -412,7 +413,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 7
@@ -483,7 +483,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 15 )
 expand = true
 stretch_mode = 7
@@ -621,7 +620,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 7
@@ -695,7 +693,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 15 )
 expand = true
 stretch_mode = 7
@@ -842,7 +839,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 7
@@ -892,7 +888,6 @@ anchor_top = 0.75
 anchor_right = 0.409
 anchor_bottom = 1.014
 margin_left = -0.0160003
-margin_top = -3.8147e-06
 margin_right = 0.00799942
 margin_bottom = -1.008
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -926,7 +921,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 15 )
 expand = true
 stretch_mode = 7
@@ -972,7 +966,6 @@ anchor_top = 0.75
 anchor_right = 0.409
 anchor_bottom = 1.014
 margin_left = -0.0160003
-margin_top = -3.8147e-06
 margin_right = 0.00799942
 margin_bottom = -0.00800323
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -1006,7 +999,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 13 )
 expand = true
 stretch_mode = 7
@@ -1074,7 +1066,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 9 )
 expand = true
 stretch_mode = 7
@@ -1150,7 +1141,6 @@ anchor_bottom = 0.75
 margin_left = 0.0079999
 margin_top = -0.0240002
 margin_right = -0.00800323
-margin_bottom = -3.8147e-06
 texture = ExtResource( 15 )
 expand = true
 stretch_mode = 7
@@ -1216,6 +1206,7 @@ __meta__ = {
 }
 
 [node name="Pic" type="TextureRect" parent="BlueBricksPanelAlt"]
+visible = false
 anchor_left = 0.034
 anchor_top = 0.042
 anchor_right = 0.966
@@ -1411,9 +1402,12 @@ autostart = true
 
 [node name="EndGame" parent="." instance_placeholder="res://Scenes/endgame.tscn"]
 visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="IngameMenu" parent="." instance_placeholder="res://Scenes/ingame_menu.tscn"]
+[node name="IngameMenu" parent="." instance=ExtResource( 4 )]
 visible = false
 
 [connection signal="tween_all_completed" from="GraveyardAnim" to="." method="_on_graveyard_anim_tween_all_completed"]
-[connection signal="timeout" from="TimeElapsed" to="." method="_on_Time_Elapsed_timeout"]
+[connection signal="timeout" from="TimeElapsed" to="." method="OnTimeElapsedTimeout"]

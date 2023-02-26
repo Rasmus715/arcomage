@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Images/Layout-edit_dark.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/RobotoCondensed-Regular.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Sounds/title.ogg" type="AudioStream" id=8]
 [ext_resource path="res://Images/arcomage_logo.png" type="Texture" id=9]
 [ext_resource path="res://Fonts/RobotoCondensed-Regular.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Scenes/HubScreen.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 20
@@ -335,3 +336,6 @@ __meta__ = {
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 bus = "Music"
+
+[node name="HubScreen" parent="." instance=ExtResource( 11 )]
+visible = false

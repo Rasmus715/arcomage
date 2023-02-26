@@ -63,7 +63,7 @@ onready var enemy_recruits_total_panel_alt = $enemy_recruits_panel_alt/total
 onready var ingame_menu = $ingame_menu
 
 # PLAYER NAMES
-var player_name = cfg.nickname
+var player_name = Config.Nickname
 var enemy_name = tr("COMPUTER")
 
 enum players {red, blue} # TODO: Multiplayer enum for players UIDs
@@ -77,26 +77,26 @@ var player_draw_card = false # Should player draw a card instead of switching tu
 var enemy_draw_card = false # Should enemy draw a card instead of switching turn.
 
 # DEFAULT TOWER AND WALL HP
-var player_tower_hp = cfg.tower_levels
-var player_wall_hp = cfg.wall_levels
+var player_tower_hp = Config.TowerLevels
+var player_wall_hp = Config.WallLevels
 
-var enemy_tower_hp = cfg.tower_levels
-var enemy_wall_hp = cfg.wall_levels
+var enemy_tower_hp = Config.TowerLevels
+var enemy_wall_hp = Config.WallLevels
 
 # DEFAULT RESOURCES
-var player_quarry = cfg.quarry_levels
-var player_bricks = cfg.brick_quantity
-var player_magic = cfg.magic_levels
-var player_gems = cfg.gem_quantity
-var player_dungeon = cfg.dungeon_levels
-var player_recruits = cfg.recruit_quantity
+var player_quarry = Config.QuarryLevels
+var player_bricks = Config.BrickQuantity
+var player_magic = Config.MagicLevels
+var player_gems = Config.GemQuantity
+var player_dungeon = Config.DungeonLevels
+var player_recruits = Config.RecruitQuantity
 
-var enemy_quarry = cfg.quarry_levels
-var enemy_bricks = cfg.brick_quantity
-var enemy_magic = cfg.magic_levels
-var enemy_gems = cfg.gem_quantity
-var enemy_dungeon = cfg.dungeon_levels
-var enemy_recruits = cfg.recruit_quantity
+var enemy_quarry = Config.QuarryLevels
+var enemy_bricks = Config.BrickQuantity
+var enemy_magic = Config.MagicLevels
+var enemy_gems = Config.GemQuantity
+var enemy_dungeon = Config.DungeonLevels
+var enemy_recruits = Config.RecruitQuantity
 
 var time_start = 0 # From what value should timer start.
 var time_now = 0 # Represents current timer value.
@@ -114,7 +114,7 @@ func _input(event):
 
 # Complete actions on start of current game.
 func _ready():
-	global.table = self # Declare global link to the current game table.
+	Global.Table = self # Declare global link to the current game table.
 	rng.randomize() # Randomize timer.
 	turn = rng.randi_range(0, players.size() - 1) # "Roll the dice", or in other word - randomize which player's first turn.
 	add_resources(turn) # Add resources to the first player.
@@ -125,7 +125,7 @@ func _ready():
 	# PLAYER START DECK GENERATION
 	## Generates required ammount of cards to the player in a loop, which is declared by user config.
 	## For multiplayer: Config priority to the host.
-	while player_deck.get_child_count() != cfg.cards_in_hand:
+	while player_deck.get_child_count() != Config.CardsInHand:
 		var card = load("res://scenes/card.tscn")
 		var card_inst = card.instance() # Card instansing.
 		card_inst.add_to_group("player_card") # Add card to player group for separating.
@@ -135,7 +135,7 @@ func _ready():
 	# ENEMY START DECK GENERATION
 	## Generates required ammount of cards to the enemy in a loop, which is declared by user config.
 	## For multiplayer: Config priority to the host.
-	while enemy_deck.get_child_count() != cfg.cards_in_hand:
+	while enemy_deck.get_child_count() != Config.CardsInHand:
 		var card = load("res://scenes/card.tscn")
 		var card_inst = card.instance() # Card instansing.
 		card_inst.add_to_group("enemy_card") # Add card to enemy group for separating.
@@ -160,7 +160,7 @@ func _physics_process(delta):
 		
 		# ARCOMAGE BOT v.0.3 (stable)
 		# DON'T TRY TO UNDERSTAND THIS, LOL
-		if cfg.ai_type == 0:
+		if Config.CurrentAiType == 0:
 			var bot_atk_card_count = 0
 			var bot_def_card_count = 0
 			var bot_res_card_count = 0
@@ -224,7 +224,7 @@ func _physics_process(delta):
 							enemy_deck.get_node(random_bot_card.name).bot_card_remove()
 							print("BOT: NOT ENOUGH CARDS, DISCARD RANDOM CARD")
 							break
-		elif cfg.ai_type == 3:
+		elif Config.CurrentAiType == 3:
 			var random_bot_card = enemy_deck.get_child(rng.randi_range(0, enemy_deck.get_child_count() - 1))
 			enemy_deck.get_node(random_bot_card.name).bot_card_use()
 			print("RANDOM")
@@ -232,11 +232,11 @@ func _physics_process(delta):
 	## END GAME
 	# Shows a floting window containing info about endgame.
 	# TOWER BUILDING VICTORY FOR PLAYER AND ENEMY
-	if player_tower_hp >= cfg.tower_victory:
+	if player_tower_hp >= Config.TowerVictory:
 		endgame_screen.set_winner(player_name, tr("TOWER_VICTORY_MSG"), str_elapsed)
 		time_elapsed.stop()
 		get_tree().paused = true
-	if enemy_tower_hp >= cfg.tower_victory:
+	if enemy_tower_hp >= Config.TowerVictory:
 		endgame_screen.set_winner(enemy_name, tr("TOWER_VICTORY_MSG"), str_elapsed)
 		time_elapsed.stop()
 		get_tree().paused = true
@@ -250,11 +250,11 @@ func _physics_process(delta):
 		time_elapsed.stop()
 		get_tree().paused = true
 	# RESOURCE VICTORY FOR PLAYER AND ENEMY
-	if player_bricks >= cfg.resource_victory and player_gems >= cfg.resource_victory and player_recruits >= cfg.resource_victory:
+	if player_bricks >= Config.ResourceVictory and player_gems >= Config.ResourceVictory and player_recruits >= Config.ResourceVictory:
 		endgame_screen.set_winner(player_name, tr("RESOURCE_VICTORY_MSG"), str_elapsed)
 		time_elapsed.stop()
 		get_tree().paused = true
-	if enemy_bricks >= cfg.resource_victory and enemy_gems >= cfg.resource_victory and enemy_recruits >= cfg.resource_victory:
+	if enemy_bricks >= Config.ResourceVictory and enemy_gems >= Config.ResourceVictory and enemy_recruits >= Config.ResourceVictory:
 		endgame_screen.set_winner(enemy_name, tr("RESOURCE_VICTORY_MSG"), str_elapsed)
 		time_elapsed.stop()
 		get_tree().paused = true
@@ -330,7 +330,7 @@ func use_card(card_name):
 		Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	yield(newcard_anim, "tween_completed")
 	
-	if player_deck.get_child_count() <= cfg.cards_in_hand:
+	if player_deck.get_child_count() <= Config.CardsInHand:
 		var card_next = load("res://scenes/card.tscn")
 		var card_inst = card_next.instance()
 		card_inst.add_to_group("player_card")
@@ -416,7 +416,7 @@ func remove_card(card_name):
 		Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	yield(newcard_anim, "tween_completed")
 	
-	if player_deck.get_child_count() <= cfg.cards_in_hand:
+	if player_deck.get_child_count() <= Config.CardsInHand:
 		var card_next = load("res://scenes/card.tscn")
 		var card_inst = card_next.instance()
 		card_inst.add_to_group("player_card")
@@ -483,7 +483,7 @@ func bot_use_card(card_name):
 	card_prev.queue_free()
 	card_new.set_modulate(Color(1,1,1,1))
 	
-	if enemy_deck.get_child_count() <= cfg.cards_in_hand:
+	if enemy_deck.get_child_count() <= Config.CardsInHand:
 		var card_next = load("res://scenes/card.tscn")
 		var card_inst = card_next.instance()
 		card_inst.add_to_group("enemy_card")
@@ -553,7 +553,7 @@ func bot_remove_card(card_name):
 		yield(self, "graveyard_anim_ended")
 		AI_ready = true
 		turn = 0
-	if enemy_deck.get_child_count() <= cfg.cards_in_hand:
+	if enemy_deck.get_child_count() <= Config.CardsInHand:
 		var card_next = load("res://scenes/card.tscn")
 		var card_inst = card_next.instance()
 		enemy_deck.add_child(card_inst)
